@@ -2,6 +2,7 @@ package com.valdirsantos714.communitycenter.service;
 
 import com.valdirsantos714.communitycenter.model.CommunityCenter;
 import com.valdirsantos714.communitycenter.model.Resource;
+import com.valdirsantos714.communitycenter.payload.CommunityCenterPayloadRequest;
 import com.valdirsantos714.communitycenter.repository.CommunityCenterRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,8 +15,9 @@ public class CommunityCenterService {
     @Autowired
     private CommunityCenterRepository repository;
 
-    public CommunityCenter addCommunityCenter(CommunityCenter center) {
-        return repository.save(center);
+    public CommunityCenter addCommunityCenter(CommunityCenterPayloadRequest center) {
+        var community = new CommunityCenter(center);
+        return repository.save(community);
     }
 
     public CommunityCenter updateOccupancy(String id, int newOccupancy) {
