@@ -7,6 +7,6 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface CommunityCenterRepository extends MongoRepository<CommunityCenter, Long> {
+public interface CommunityCenterRepository extends MongoRepository<CommunityCenter, String> {
     List<CommunityCenter> findByCurrentOccupancyGreaterThan(int occupancy);
 }
