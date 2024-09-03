@@ -83,7 +83,6 @@ public class CommunityCenterController {
                     @ApiResponse(description = "Requisição feita com sucesso", responseCode = "200"),
                     @ApiResponse(responseCode = "500", description = "Erro interno do servidor")
             })
-    @PostMapping("/exchange-resources")
     @GetMapping
     public ResponseEntity getAllCenters() {
         var list = service.getAllCenters();
