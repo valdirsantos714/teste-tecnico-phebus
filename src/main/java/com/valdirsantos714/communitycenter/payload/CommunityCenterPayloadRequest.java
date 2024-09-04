@@ -1,12 +1,13 @@
 package com.valdirsantos714.communitycenter.payload;
 
+import com.valdirsantos714.communitycenter.model.Adress;
 import com.valdirsantos714.communitycenter.model.CommunityCenter;
 import com.valdirsantos714.communitycenter.model.Resource;
 
 import java.util.List;
 
 public record CommunityCenterPayloadRequest(String name,
-                                            String address,
+                                            Adress address,
                                             String location,
                                             int maxCapacity,
                                             int currentOccupancy,

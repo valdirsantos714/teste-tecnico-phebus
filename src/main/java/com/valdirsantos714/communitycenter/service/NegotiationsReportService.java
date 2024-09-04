@@ -1,0 +1,48 @@
+package com.valdirsantos714.communitycenter.service;
+
+import com.valdirsantos714.communitycenter.model.NegotiationsReport;
+import com.valdirsantos714.communitycenter.repository.NegotiationsReportRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+
+@Service
+@Transactional
+public class NegotiationsReportService {
+
+    @Autowired
+    private NegotiationsReportRepository repository;
+
+    public NegotiationsReport addNegotiationsReport(NegotiationsReport NegotiationsReport) {
+        return repository.save(NegotiationsReport);
+    }
+
+    public List<NegotiationsReport> addAllNegotiationsReports(List<NegotiationsReport> NegotiationsReport) {
+        return repository.saveAll(NegotiationsReport);
+    }
+
+    public NegotiationsReport getNegotiationsReportById(String NegotiationsReportId) {
+        var NegotiationsReport = repository.findById(NegotiationsReportId).orElseThrow(() -> new RuntimeException("Erro! NegotiationsReport não encontrado!"));
+        return NegotiationsReport;
+    }
+    
+    public NegotiationsReport updateNegotiationsReport(String NegotiationsReportId, NegotiationsReport NegotiationsReport) {
+        NegotiationsReport NegotiationsReportOld = getNegotiationsReportById(NegotiationsReportId);
+
+//        NegotiationsReportOld.setNegotiationsReportCep(NegotiationsReport.getNegotiationsReportCep());
+
+        repository.save(NegotiationsReportOld);
+        return NegotiationsReportOld;
+    }
+
+    
+    public void deleteNegotiationsReport(String NegotiationsReportId) {
+        repository.deleteById(NegotiationsReportId);
+    }
+
+    public List<NegotiationsReport> getAllNegotiationsReports() {
+        return repository.findAll();
+    }
+}

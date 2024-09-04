@@ -15,8 +15,20 @@ public class CommunityCenterService {
     @Autowired
     private CommunityCenterRepository repository;
 
+    @Autowired
+    private ResourceService resourceService;
+
+    @Autowired
+    private AdressService adressService;
+
     public CommunityCenter addCommunityCenter(CommunityCenterPayloadRequest center) {
         var community = new CommunityCenter(center);
+
+        var adress = adressService.addAdress(community.getAddress());
+        var resources = resourceService.addAllResources(community.getResources());
+        community.setAddress(adress);
+        community.setResources(resources);
+
         return repository.save(community);
     }
 
@@ -27,7 +39,7 @@ public class CommunityCenterService {
         center.setCurrentOccupancy(newOccupancy);
 
         if (center.getOccupancyPercentage() >= 100) {
-
+            throw new RuntimeException("Erro! Centro comunitário está completamente lotado");
         }
 
         return repository.save(center);

@@ -83,7 +83,7 @@ public class CommunityCenterController {
                     @ApiResponse(description = "Requisição feita com sucesso", responseCode = "200"),
                     @ApiResponse(responseCode = "500", description = "Erro interno do servidor")
             })
-    @GetMapping
+    @GetMapping("/all")
     public ResponseEntity getAllCenters() {
         var list = service.getAllCenters();
         return ResponseEntity.ok(list.stream().map(CommunityCenterPayloadResponse::new));
