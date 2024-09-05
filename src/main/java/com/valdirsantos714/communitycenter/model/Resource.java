@@ -1,6 +1,7 @@
 package com.valdirsantos714.communitycenter.model;
 
 import lombok.*;
+import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -12,6 +13,8 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Setter
 public class Resource {
 
+    @Id
+    private String idResource;
     private String type;
     private int quantity;
     private int points;

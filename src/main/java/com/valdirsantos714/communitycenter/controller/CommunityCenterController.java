@@ -3,6 +3,7 @@ package com.valdirsantos714.communitycenter.controller;
 import com.valdirsantos714.communitycenter.model.Resource;
 import com.valdirsantos714.communitycenter.payload.CommunityCenterPayloadRequest;
 import com.valdirsantos714.communitycenter.payload.CommunityCenterPayloadResponse;
+import com.valdirsantos714.communitycenter.payload.NegotiationsPayloadResponse;
 import com.valdirsantos714.communitycenter.service.CommunityCenterService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/community-centers")
@@ -87,5 +89,27 @@ public class CommunityCenterController {
     public ResponseEntity getAllCenters() {
         var list = service.getAllCenters();
         return ResponseEntity.ok(list.stream().map(CommunityCenterPayloadResponse::new));
+    }
+
+    @Operation(summary = "Retorna uma lista de Negotiations do centro comunitário",
+            responses = {
+                    @ApiResponse(description = "Requisição feita com sucesso", responseCode = "200"),
+                    @ApiResponse(responseCode = "500", description = "Erro interno do servidor")
+            })
+    @GetMapping("/{idCommunity}")
+    public ResponseEntity getNegotiationsFromCommunityCenter(@PathVariable(name = "idCommunity") String idCommunity) {
+        var list = service.findNegotiations(idCommunity);
+        return ResponseEntity.ok(list.stream().map(NegotiationsPayloadResponse::new));
+    }
+
+    @Operation(summary = "Retorna a quantidade média de cada tipo de recurso por centro comunitário",
+            responses = {
+                    @ApiResponse(description = "Requisição feita com sucesso", responseCode = "200"),
+                    @ApiResponse(responseCode = "500", description = "Erro interno do servidor")
+            })
+    @GetMapping("/average-resources")
+    public ResponseEntity<Map<String, Double>> getAverageResources() {
+        Map<String, Double> averageResources = service.getAverageResourcesPerCenter();
+        return ResponseEntity.ok(averageResources);
     }
 }

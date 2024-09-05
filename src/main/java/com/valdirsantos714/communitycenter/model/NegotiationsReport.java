@@ -1,5 +1,7 @@
 package com.valdirsantos714.communitycenter.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.valdirsantos714.communitycenter.payload.NegotiationsPayloadResponse;
 import lombok.*;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.DBRef;
@@ -7,6 +9,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.time.LocalDate;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Data
@@ -21,8 +24,12 @@ public class NegotiationsReport {
     private String id;
     private String sourceCenterId; // ID do centro comunitário que iniciou a negociação
     private String targetCenterId; // ID do centro comunitário que recebeu a negociação
+
+    @JsonIgnore
     private List<Resource> exchangedResources; // Recursos trocados na negociação
-    private LocalDate negotiationDate; // Data da negociação
+
+    @JsonIgnore
+    private LocalDateTime negotiationDate; // Data da negociação
 
     // Centro que iniciou a negociação
     @DBRef

@@ -1,5 +1,6 @@
 package com.valdirsantos714.communitycenter.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.valdirsantos714.communitycenter.payload.CommunityCenterPayloadRequest;
 import lombok.*;
 import org.springframework.data.annotation.Id;
@@ -29,9 +30,11 @@ public class CommunityCenter {
     private int maxCapacity;
     private int currentOccupancy;
 
+    @JsonIgnore
     @DBRef
     private List<Resource> resources = new ArrayList<>();
 
+    @JsonIgnore
     @DBRef
     private List<NegotiationsReport> negotiationReports = new ArrayList<>();
 
