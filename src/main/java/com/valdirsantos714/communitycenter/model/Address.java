@@ -1,12 +1,16 @@
 package com.valdirsantos714.communitycenter.model;
 
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Data
 @Document(collection = "addresses")
-public class Adress {
+@Getter
+@Setter
+public class Address {
 
     @Id
     private String adressId;

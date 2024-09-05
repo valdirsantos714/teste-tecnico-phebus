@@ -1,12 +1,15 @@
 package com.valdirsantos714.communitycenter.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import org.springframework.data.mongodb.core.mapping.DBRef;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 @Data
+@Document(collection = "resourcers")
 @NoArgsConstructor
 @AllArgsConstructor
+@Getter
+@Setter
 public class Resource {
 
     private String type;

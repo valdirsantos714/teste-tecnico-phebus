@@ -1,6 +1,6 @@
 package com.valdirsantos714.communitycenter.service;
 
-import com.valdirsantos714.communitycenter.model.Adress;
+import com.valdirsantos714.communitycenter.model.Address;
 import com.valdirsantos714.communitycenter.repository.AdressRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,31 +15,31 @@ public class AdressService {
     @Autowired
     private AdressRepository repository;
 
-    public Adress addAdress(Adress adress) {
-        return repository.save(adress);
+    public Address addAdress(Address address) {
+        return repository.save(address);
     }
 
-    public List<Adress> addAllAdresss(List<Adress> adress) {
-        return repository.saveAll(adress);
+    public List<Address> addAllAdresss(List<Address> addresses) {
+        return repository.saveAll(addresses);
     }
 
-    public Adress getAdressById(String adressId) {
+    public Address getAdressById(String adressId) {
         var adress = repository.findById(adressId).orElseThrow(() -> new RuntimeException("Erro! Adress não encontrado!"));
         return adress;
     }
     
-    public Adress updateAdress(String adressId, Adress adress) {
-        Adress adressOld = getAdressById(adressId);
+    public Address updateAdress(String adressId, Address address) {
+        Address addressOld = getAdressById(adressId);
 
-        adressOld.setAdressCep(adress.getAdressCep());
-        adressOld.setAdressCity(adress.getAdressCity());
-        adressOld.setAdressComplement(adress.getAdressComplement());
-        adressOld.setAdressNumber(adress.getAdressNumber());
-        adressOld.setAdressStreet(adress.getAdressStreet());
-        adressOld.setAdressReference(adress.getAdressReference());
+        addressOld.setAdressCep(address.getAdressCep());
+        addressOld.setAdressCity(address.getAdressCity());
+        addressOld.setAdressComplement(address.getAdressComplement());
+        addressOld.setAdressNumber(address.getAdressNumber());
+        addressOld.setAdressStreet(address.getAdressStreet());
+        addressOld.setAdressReference(address.getAdressReference());
 
-        repository.save(adressOld);
-        return adressOld;
+        repository.save(addressOld);
+        return addressOld;
     }
 
     
@@ -47,7 +47,7 @@ public class AdressService {
         repository.deleteById(AdressId);
     }
 
-    public List<Adress> getAllAdresss() {
+    public List<Address> getAllAdresss() {
         return repository.findAll();
     }
 }
