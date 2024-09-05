@@ -30,16 +30,6 @@ public class NegotiationsReportService {
         return NegotiationsReport;
     }
     
-    public NegotiationsReport updateNegotiationsReport(String NegotiationsReportId, NegotiationsReport NegotiationsReport) {
-        NegotiationsReport NegotiationsReportOld = getNegotiationsReportById(NegotiationsReportId);
-
-//        NegotiationsReportOld.setNegotiationsReportCep(NegotiationsReport.getNegotiationsReportCep());
-
-        repository.save(NegotiationsReportOld);
-        return NegotiationsReportOld;
-    }
-
-    
     public void deleteNegotiationsReport(String NegotiationsReportId) {
         repository.deleteById(NegotiationsReportId);
     }

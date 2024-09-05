@@ -19,4 +19,5 @@ public record CommunityCenterPayloadResponse(String id,
     public CommunityCenterPayloadResponse(CommunityCenter c) {
         this(c.getId(), c.getName(), c.getAddress(), c.getLocation(), c.getMaxCapacity(), c.getCurrentOccupancy(), c.getResources(), c.getNegotiationReports());
     }
+
 }

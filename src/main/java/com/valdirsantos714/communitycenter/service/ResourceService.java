@@ -27,19 +27,7 @@ public class ResourceService {
         var resource = repository.findById(resourceId).orElseThrow(() -> new RuntimeException("Erro! Resource não encontrado!"));
         return resource;
     }
-    
-    public Resource updateResource(String resourceId, Resource resource) {
-        Resource resourceOld = getResourceById(resourceId);
 
-        resourceOld.setType(resource.getType());
-        resourceOld.setQuantity(resource.getQuantity());
-        resourceOld.setPoints(resource.getPoints());
-
-        repository.save(resourceOld);
-        return resourceOld;
-    }
-
-    
     public void deleteResource(String resourceId) {
         repository.deleteById(resourceId);
     }
