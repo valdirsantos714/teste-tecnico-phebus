@@ -83,7 +83,7 @@ public class CommunityCenterService {
             repository.save(fromCenter);
             repository.save(toCenter);
 
-            var negotiation = new NegotiationsReport(null, fromCenterId, toCenterId, fromCenter.getResources(), LocalDateTime.now(), fromCenter, toCenter);
+            var negotiation = new NegotiationsReport(fromCenterId, toCenterId, fromCenter.getResources(), LocalDateTime.now(), fromCenter, toCenter);
             reportService.addNegotiationsReport(negotiation);
 
             fromCenter.getNegotiationReports().add(negotiation);

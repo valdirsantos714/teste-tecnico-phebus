@@ -38,8 +38,8 @@ public class NegotiationsReportService {
         return repository.findAll();
     }
 
-    public List<NegotiationsReport> getNegotiationsReportsForGivenPeriod(LocalDateTime oldDate) {
-        var list = getAllNegotiationsReports().stream().filter(n -> n.getNegotiationDate().isAfter(oldDate)).collect(Collectors.toList());
+    public List<NegotiationsReport> getNegotiationsReportsForGivenPeriod(String idCommunity, LocalDateTime oldDate) {
+        var list = getAllNegotiationsReports().stream().filter(n -> n.getNegotiationDate().isAfter(oldDate) && n.getInitiatingCommunityCenter().getId() == idCommunity).collect(Collectors.toList());
         return list;
     }
 }

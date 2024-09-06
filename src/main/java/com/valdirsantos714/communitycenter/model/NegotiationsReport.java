@@ -38,4 +38,13 @@ public class NegotiationsReport {
     // Centro com o qual a negociação foi feita
     @DBRef
     private CommunityCenter otherCommunityCenter;
+
+    public NegotiationsReport(String sourceCenterId, String targetCenterId, List<Resource> exchangedResources, LocalDateTime negotiationDate, CommunityCenter initiatingCommunityCenter, CommunityCenter otherCommunityCenter) {
+        this.sourceCenterId = sourceCenterId;
+        this.targetCenterId = targetCenterId;
+        this.exchangedResources = exchangedResources;
+        this.negotiationDate = negotiationDate;
+        this.initiatingCommunityCenter = initiatingCommunityCenter;
+        this.otherCommunityCenter = otherCommunityCenter;
+    }
 }

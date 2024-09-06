@@ -1,21 +1,23 @@
 package com.valdirsantos714.communitycenter.controller;
 
 import com.valdirsantos714.communitycenter.model.Resource;
-import com.valdirsantos714.communitycenter.payload.CommunityCenterPayloadRequest;
-import com.valdirsantos714.communitycenter.payload.CommunityCenterPayloadResponse;
-import com.valdirsantos714.communitycenter.payload.NegotiationsPayloadResponse;
+import com.valdirsantos714.communitycenter.payload.*;
 import com.valdirsantos714.communitycenter.service.CommunityCenterService;
+import com.valdirsantos714.communitycenter.service.NegotiationsReportService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/community-centers")
@@ -23,6 +25,9 @@ public class CommunityCenterController {
 
     @Autowired
     private CommunityCenterService service;
+
+    @Autowired
+    private NegotiationsReportService negotiationsReportService;
 
     @Operation(summary = "Salva Community Center no sistema",  requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(
             description = "Objeto JSON contendo os dados da Community Center",
@@ -58,14 +63,14 @@ public class CommunityCenterController {
                     @ApiResponse(description = "Requisição feita com sucesso", responseCode = "200"),
                     @ApiResponse(responseCode = "500", description = "Erro interno do servidor")
             })
-    @PostMapping("/exchange-resources")
+    @PostMapping("/exchangeResources")
     public ResponseEntity exchangeResources(@RequestParam String fromCenterId, @RequestParam String toCenterId,
-                                  @RequestBody List<Resource> fromResources, @RequestBody List<Resource> toResources) {
-        service.exchangeResources(fromCenterId, toCenterId, fromResources, toResources);
+                                            @RequestBody ExchangeResourcesRequest request) {
+        service.exchangeResources(fromCenterId, toCenterId, request.fromResources(), request.toResources());
 
-
-        return ResponseEntity.status(HttpStatus.OK).build();
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
+
 
 
     @Operation(summary = "Retorna uma lista dos centros comunitários com que estão com as maiores ocupações no momento.",
@@ -111,5 +116,31 @@ public class CommunityCenterController {
     public ResponseEntity<Map<String, Double>> getAverageResources() {
         Map<String, Double> averageResources = service.getAverageResourcesPerCenter();
         return ResponseEntity.ok(averageResources);
+    }
+
+    @Operation(summary = "Busca relatórios de negociações para um centro comunitário específico a partir de uma data.",
+            responses = {
+                    @ApiResponse(description = "Requisição feita com sucesso", responseCode = "200"),
+                    @ApiResponse(responseCode = "404", description = "Centro comunitário não encontrado"),
+                    @ApiResponse(responseCode = "500", description = "Erro interno do servidor")
+            })
+    @GetMapping("/reports/by-community")
+    public ResponseEntity getNegotiationsReportsForGivenPeriod(
+            @RequestParam("idCommunity") String idCommunity,
+            @RequestParam("date") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime oldDate) {
+
+        // Busca os relatórios de negociações filtrados pela data e pelo ID do centro comunitário
+        var reports = negotiationsReportService.getNegotiationsReportsForGivenPeriod(idCommunity, oldDate);
+
+        if (reports.isEmpty()) {
+            return ResponseEntity.notFound().build(); // Retorna 404 se nenhum relatório for encontrado
+        }
+
+        // Mapeia os relatórios para o payload de resposta
+        List<NegotiationsReportPayloadResponse> responsePayload = reports.stream()
+                .map(NegotiationsReportPayloadResponse::new)
+                .collect(Collectors.toList());
+
+        return ResponseEntity.ok(responsePayload);
     }
 }
